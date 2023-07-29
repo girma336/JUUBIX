@@ -7,8 +7,11 @@ const {
     setTask
 } = require('../controllers/taskController');
 
-router.route('/').get(getTask).post(setTask);
+const  { protect } = require('../middelware/authMiddelware')
 
-router.route('/:id').delete(deleteTask).put(updateTask)
+
+router.route('/').get(protect, getTask).post(protect, setTask);
+
+router.route('/:id').delete(protect, deleteTask).put(protect, updateTask)
 
 module.exports = router;
