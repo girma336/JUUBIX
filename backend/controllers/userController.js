@@ -59,20 +59,15 @@ const loginUser = asyncHandler(async (req, res) => {
 
     } else {
         res.status(400)
-        throw new Error("Invalide] credentials")
+        throw new Error("Invalide credentials")
     }
    
 })
 
 const getMe = asyncHandler(async (req, res) => {
     // const tasks = await Task.find({})
-    const { _id, name, email } = await User.findById(req.user.id)
-
-    res.status(200).json({ 
-        id: _id,
-        name,
-        email
-    })
+    // const { _id, name, email } = await User.findById(req.user.id)
+    res.status(200).json(req.user)
 })
 
 
