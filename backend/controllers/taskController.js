@@ -42,8 +42,9 @@ const updateTask =  asyncHandler(async  (req, res) => {
    
    const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
+    runValidators: true,
    })
-    res.status(200).json({ message: 'Task was updated successfuly'})
+    res.status(200).json(updatedTask)
 })
 
 
@@ -67,8 +68,8 @@ const deleteTask =  asyncHandler(async  (req, res) => {
     throw new Error('User not authorized')
    }
    
-    await Task.deleteOne( {_id: task.id})
-    res.status(200).json({ message: 'Task was Deleted successfuly'})
+   const taskNod = await Task.deleteOne( {_id: task.id})
+    res.status(200).json({ id: req.params.id })
 })
 
 module.exports = {
