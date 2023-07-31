@@ -6,16 +6,16 @@ import { createTask } from '../features/tasks/taskSlice'
 const TaskForm = ({isLoading}) => {
   const [name, setTask] = useState()
   const dispatch = useDispatch()
-
+  
   const handleSubmit = (e) => {
     e.preventDefault()
     dispatch(createTask({ name }))
     setTask('')
   }
   return (
-    <div className='p-2'>
+    <div className='p-2 shadow-lg'>
         <section>
-          <p className='flex w-full mb-4 text-lg justify-center items-center '>Add new task</p>
+          <p className='flex w-full mb-4 text-lg justify-center items-center rounded-lg '>Add new task</p>
         </section>
         <form onSubmit={handleSubmit}>
             <div>

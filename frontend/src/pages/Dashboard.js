@@ -5,6 +5,7 @@ import TaskForm from '../components/TaskForm'
 import { getTasks, reset } from '../features/tasks/taskSlice'
 import TaskItem from '../components/TaskItem'
 import Skeleton from '../components/Skeleton'
+
 const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -36,30 +37,30 @@ const Dashboard = () => {
     )
   }
   return (
-    <> 
-    <section>
-      <h1 className='flex p-2 w-full justify-center items-center text-xl'>
+    <div className='bg-gray-100'> 
+    <section >
+      <h1 className='flex p-2 w-full font-semibold justify-center items-center text-2xl'>
       Welcome {user && user.name}
       </h1>
-      <p className='flex w-full justify-center items-center '>Task Dashboard</p>
+      <p className='flex w-full justify-center items-center  text-gray-400'>Task Dashboard</p>
     </section>
     <div className='w-80 ml-auto rounded mr-auto border mt-10  flex shadow-md justify-center flex-col' >
-      <section>
-        <TaskForm isLoading={isLoading} />
+      <section className='bg-white rounde-lg'>
+         <TaskForm isLoading={isLoading} />
       </section>
       </div>
       <section className='w-98 m-5' >
         {tasks.length > 0 ? (
           <div className='w-98 grid grid-cols-2 gap-4'>
             {tasks.map((task) => (
-              <TaskItem key={task._id} task={task} />
+              <TaskItem  className='bg-white rounde-lg' key={task._id} task={task} />
             ))}
           </div>
         ) : (
           <h3>You have not set any Tasks</h3>
         )}
       </section>
-    </>
+    </div>
   )
 }
 

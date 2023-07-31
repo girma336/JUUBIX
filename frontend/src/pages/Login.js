@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { FaSignInAlt } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { login, reset } from '../features/auth/authSlice'
 import Button from '../components/Button'
 
@@ -12,15 +11,15 @@ const Login = () => {
     email: '',
     password: ''
   })
-  
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const { user, isLoading, isSuccess, message, isError } = useSelector(state => state.auth)
-
+  const [mess, setMess] = useState(isError)
   useEffect(() => {
     if(isError) {
-      toast.error(message);
+      setMess(isError)
     }
 
     if(isSuccess || user) {
@@ -30,7 +29,7 @@ const Login = () => {
     dispatch(reset())
 
   }, [user, isError, isSuccess, message, navigate, dispatch])
-  
+
   const  { email, password } = formData
   const handleChange = (e) => {
   setFormData((prevState) => ({
@@ -48,16 +47,18 @@ const Login = () => {
 
   dispatch(login(userData))
 }
-
+  
   return (
-    <div className='w-80 ml-auto rounded mr-auto border mt-10  flex shadow-md justify-center flex-col' >
+    <div className='w-80 ml-auto bg-white rounded mr-auto border mt-10  flex shadow-md justify-center flex-col' >
     <section>
       <h1 className='flex p-2 w-full justify-center items-center text-xl'>
         <FaSignInAlt /> <span className='ml-4'>Login</span>
       </h1>
       <p className='flex w-full justify-center items-center '>Login into account</p>
     </section>
+    {mess && <div className='text-red-500 ml-auto mr-auto'>Invalid email or password</div> }
     <section>
+    
       <form onSubmit={handleSubmit}>
         <div className='p-2'>
           <input

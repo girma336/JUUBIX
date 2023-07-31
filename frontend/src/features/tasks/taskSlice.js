@@ -62,6 +62,28 @@ export const deleteTask = createAsyncThunk('tasks/delete', async(id, thunkAPI) =
   }
 })
 
+
+// edite task 
+
+export const updateTask = createAsyncThunk('tasks/update', async(task, thunkAPI) => {
+  console.log(task, "girma new")
+  try {
+      const token = thunkAPI.getState().auth.user.token
+      return await taskService.updateTask(task, token)
+  } catch (error) {
+      const message = 
+      (error.response && 
+          error.response.data && 
+          error.response.data.message) ||
+      error.message || 
+      error.toString()
+
+      return thunkAPI.rejectWithValue(message)
+      
+  }
+})
+
+
 const taskSlice = createSlice({
     name: 'task',
     initialState,
@@ -115,6 +137,32 @@ const taskSlice = createSlice({
             console.log(state.tasks)
           })  
           .addCase(deleteTask.rejected, (state, action) => {
+            state.isLoading = false
+            state.isSuccess= false
+            state.isError = true
+            state.message = action.payload
+          })
+          .addCase(updateTask.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(updateTask.fulfilled, (state, action) => {
+            console.log(action.payload, "payload")
+            state.isLoading = false
+            state.isSuccess = true
+            // const newTask = {
+            //   _id: action.payload._id,
+            //   name: action.payload.name,
+            // }
+           state.tasks.forEach(task => {
+              if(task._id === action.payload._id){
+                task.name = action.payload.name
+              }
+            })
+
+            // console.log(newTasks)
+            
+          })  
+          .addCase(updateTask.rejected, (state, action) => {
             state.isLoading = false
             state.isSuccess= false
             state.isError = true

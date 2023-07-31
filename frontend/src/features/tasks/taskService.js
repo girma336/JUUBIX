@@ -21,7 +21,6 @@ const getTasks = async(token) => {
     }
 
    const respo = await axios.get(API_URL, config)
-   console.log(respo, "Girma tarekegn")
    return respo.data
   
 }
@@ -39,10 +38,24 @@ const deleteTask = async(id, token) => {
 }
 
 
+const updateTask = async (task, token) => {
+    
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    const response = await axios.put(API_URL + task._id, task, config)
+    return response.data
+}
+
+
 const taskService = {
     createTask,
     getTasks,
-    deleteTask
+    deleteTask,
+    updateTask
 }
 
 export default taskService 

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { FaUser } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
 import { register, reset } from '../features/auth/authSlice';
 import Button from '../components/Button';
 const Register = () => {
+  const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,11 +18,11 @@ const Register = () => {
   const navigate = useNavigate()
 
   const { user, isLoading, isSuccess, message, isError } = useSelector(state => state.auth)
-
+  const [mess, setMess] = useState(isError)
   const  {name, email, password, password2} = formData
   useEffect(() => {
     if(isError) {
-      toast.error(message);
+      setError(isError)
     }
 
     if(isSuccess || user) {
@@ -39,7 +40,7 @@ const Register = () => {
 const handleSubmit =(e) => {
   e.preventDefault()
   if(password !== password2) {
-    toast.error('Password do not match')
+    setError('Password do not match')
   } else {
     const userData = {
       name,
@@ -52,13 +53,14 @@ const handleSubmit =(e) => {
 }
 
   return (
-    <div className='w-80 ml-auto rounded mr-auto border mt-10  flex shadow-md justify-center flex-col' >
+    <div className='w-80 ml-auto bg-white rounded mr-auto border mt-10  flex shadow-md justify-center flex-col' >
     <section >
       <h1 className='flex p-2 w-full justify-center items-center text-xl  '>
         <FaUser /> <span className='ml-4'>Register</span>
       </h1>
       <p className='flex w-full justify-center items-center '>Please create an account</p>
     </section>
+    {mess && <div className='text-red-500 ml-auto mr-auto'>Please fill all input field</div> }
     <section>
       <form onSubmit={handleSubmit}>
         <div className='p-2'>
@@ -137,11 +139,13 @@ const handleSubmit =(e) => {
             id='password2'
             onChange={handleChange}
           />
+          {error && <p className='text-red-500'>{error}</p>}
         </div>
-        <div>
-        <Button className="m-3" loading={isLoading}  type='submit'>
+        <div className='w-48 ml-auto mr-auto'>
+          <Button className="mt-4 mb-4 ml-auto mr-auto" loading={isLoading}  type='submit'>
             Submit
-        </Button>
+          </Button>
+          {isError && 'Error creating user...'}
         </div>
         
       </form>
