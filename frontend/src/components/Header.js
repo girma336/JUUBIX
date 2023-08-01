@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaSignInAlt, FaSignOutAlt, FaUser } from 'react-icons/fa'
-import { logout, reset } from '../features/auth/authSlice'
+import { logout } from '../features/auth/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import Button from './Button'
 const Header = () => {

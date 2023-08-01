@@ -22,7 +22,7 @@ const Register = () => {
   const  {name, email, password, password2} = formData
   useEffect(() => {
     if(isError) {
-      setError(isError)
+      setMess(isError)
     }
 
     if(isSuccess || user) {
